@@ -1,72 +1,63 @@
 package org.uw.parser.handlers.regex.comma;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.uw.parser.ErrorMessages;
+import org.uw.parser.data.Term;
+import org.uw.parser.util.BaseConstants;
+import org.uw.parser.util.BaseUtil;
 
 public class DayOfWeekCommaHandler extends  BaseCommaHandler implements CommaHandler {
 
-
-    private Set<String> days = new HashSet<>();
-    public DayOfWeekCommaHandler(){
-        days.add("MON"); days.add("SUN");
-        days.add("TUE"); days.add("WED");
-        days.add("THUR"); days.add("FRI");
-        days.add("SAT");
-    }
+    private StringBuilder builder;
 
     @Override
-    public String process(String term) throws Exception {
-        String[] termSplit = term.split("\\,");
-        StringBuilder builder = new StringBuilder();
-        boolean numericTerms = true;
+    protected void validate(String termStr, Term term) throws Exception {
+        super.validate(termStr, term);
 
+        builder = new StringBuilder();
+        String[] termSplit = termStr.split("\\,");
+
+        if(isNumeric(termSplit[0]))
+            handleNumeric(termSplit);
+        else
+            handleTextual(termSplit);
+    }
+
+    private void handleTextual(String[] termSplit) throws Exception{
         for(int i=0; i< termSplit.length;i++){
-            Integer temp = isNumeric(termSplit[i]);
-            if(!numericTerms && temp != null)
-                throw new Exception();
+            if(!BaseConstants.DAY_OF_WEEK_TERMS.contains(termSplit[i]))
+                throw new Exception(ErrorMessages.INCORRECT_DAY_OF_WEEK_TERMS +" Term-" + Term.DayOfWeek);
 
-            if(temp == null && !isValid(termSplit[i]))
-            {
-                numericTerms = false;
-
-            }
-            if(!isValid(termSplit[i]))
-                throw new Exception();
             builder.append(termSplit[i]).append(" ");
         }
-
-        return builder.toString().trim();
-
     }
 
-    private Integer isNumeric(String term){
-        Integer val = null;
-        try{
-            val = Integer.parseInt(term);
-        }
-        catch (Exception e){
+    private void handleNumeric(String[] termSplit) throws Exception{
+        for(int i=0; i< termSplit.length;i++){
+            int val = BaseUtil.convertToInt(termSplit[i], Term.DayOfWeek);
+            if(val <= 0 || val > 7)
+                throw new Exception(ErrorMessages.INCORRECT_DAY_OF_WEEK_NUMERIC +" Term-" + Term.DayOfWeek);
 
+            builder.append(val).append(" ");
         }
-
-        return val;
     }
 
     @Override
-    protected boolean isValid(String term) {
-        if(term.isEmpty())
-            return false;
+    public String process(String termStr, Term term) throws Exception {
+        validate(termStr, term);
+        return builder.toString().trim();
+    }
 
-        Integer val = null;
+
+
+    private boolean isNumeric(String term){
+
         try{
-            val  = Integer.parseInt(term);
+            Integer.parseInt(term);
         }
         catch (Exception e){
-
+           return false;
         }
-        if(val == null || val < 0 || val > 7)
-            return false;
 
         return true;
     }
-
 }

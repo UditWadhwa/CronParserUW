@@ -1,36 +1,41 @@
 package org.uw.parser.handlers.regex.slash;
 
-public class DayOfMonthSlashHandler implements SlashHandler {
+import org.uw.parser.data.Term;
+import org.uw.parser.util.BaseUtil;
 
-    private static String ALL_MONTH_DAYS;
+public class DayOfMonthSlashHandler extends BaseSlashHandler implements SlashHandler {
 
-    public DayOfMonthSlashHandler(){
-        StringBuilder builder = new StringBuilder();
-        for(int i=1; i< 32; i++){
-            builder.append(i).append(" ");
-        }
+    private int val1, val2;
 
-        builder.deleteCharAt(61);
-        ALL_MONTH_DAYS = builder.toString();
-
+    @Override
+    public void validate(String termStr, Term term) throws Exception {
+        super.validate(termStr, term);
+        String[] termSplit = termStr.split("/");
+        val1 = BaseUtil.convertToInt(termSplit[0], term);
+        val2 = BaseUtil.convertToInt(termSplit[1], term);
+        if(val1 < 0 || val1 > 31 || val2 < 0 || val2 > 31)
+            throw new Exception("Invalid operands. Term-" + term.toString());
     }
 
     @Override
-    public String process(String term) {
+    public String process(String termStr, Term term) throws Exception{
+
+        validate(termStr, term);
 
         StringBuilder builder = new StringBuilder();
 
-        String[] termSplit = term.split("/");
-        Integer val1 = Integer.parseInt(termSplit[0]);
-        Integer val2 = Integer.parseInt(termSplit[1]);
         int i;
+        if(val2 == 0)
+            val2 =1;
         for( i=val1; i<= 31; i+=val2){
             builder.append(i).append(" ");
         }
+        /*
         i %=31;
         for(; i < val1; i+= val2){
             builder.append(i).append(" ");
         }
+        */
 
         return builder.toString().trim();
     }

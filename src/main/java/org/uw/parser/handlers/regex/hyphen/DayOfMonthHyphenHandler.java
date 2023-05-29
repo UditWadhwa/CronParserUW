@@ -1,32 +1,76 @@
 package org.uw.parser.handlers.regex.hyphen;
 
-public class DayOfMonthHyphenHandler implements HyphenHandler {
+import org.uw.parser.ErrorMessages;
+import org.uw.parser.data.Term;
+import org.uw.parser.util.BaseConstants;
+import org.uw.parser.util.BaseUtil;
 
-    private static String ALL_MONTH_DAYS;
+public class DayOfMonthHyphenHandler extends BaseHyphenHandler implements HyphenHandler {
 
-    public DayOfMonthHyphenHandler(){
-        StringBuilder builder = new StringBuilder();
-        for(int i=1; i< 32; i++){
-            builder.append(i).append(" ");
+    private int val1, val2;
+    private boolean isNumeric;
+    private String day1, day2;
+
+    @Override
+    protected void validate(String termStr, Term term) throws Exception {
+        super.validate(termStr, term);
+        String[] termSplit = termStr.split("-");
+        if(isNumeric(termSplit[0])) {
+            val1 = BaseUtil.convertToInt(termSplit[0], term);
+            val2 = BaseUtil.convertToInt(termSplit[1], term);
+            if(val1 <= 0 || val2 > 31)
+                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+            isNumeric = true;
         }
-
-        builder.deleteCharAt(61);
-        ALL_MONTH_DAYS = builder.toString();
-
+        else {
+            day1 = termSplit[0]; day2 = termSplit[1];
+            if(!BaseConstants.MONTH_TERMS.contains(day1) || !BaseConstants.MONTH_TERMS.contains(day2))
+                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+        }
+        if(hasIncrement && (incrementBy > 31 || incrementBy < 0)){
+            throw new Exception(ErrorMessages.INVALID_STEP_RANGE_FOR_FIELD +" 31" + ". Range-"+ incrementBy
+                    + ". Term-"+ term);
+        }
     }
 
     @Override
-    public String process(String term) {
+    public String process(String termStr, Term term) throws Exception{
+        validate(termStr, term);
         StringBuilder builder = new StringBuilder();
+        if(incrementBy == 0)
+            incrementBy =1;
 
-        String[] termSplit = term.split("-");
-        Integer val1 = Integer.parseInt(termSplit[0]);
-        Integer val2 = Integer.parseInt(termSplit[1]);
-
-        for(int i=val1; i<=val2; i++){
-            builder.append(i).append(" ");
+        if(isNumeric){
+            for(int i=val1; i<=val2; i+=incrementBy){
+                builder.append(i).append(" ");
+            }
         }
-        return builder.toString().trim();
+        else {
+            boolean found  = false;
+            for(int i= 0; i < BaseConstants.MONTH_TERMS.size(); i+=incrementBy){
+                if(BaseConstants.MONTH_TERMS.get(i).equals(day1))
+                    found= true;
 
+                if(found)
+                    builder.append(BaseConstants.MONTH_TERMS.get(i)).append(" ");
+
+                if(BaseConstants.MONTH_TERMS.get(i).equals(day2))
+                    break;
+            }
+        }
+
+        return builder.toString().trim();
+    }
+
+    private boolean isNumeric(String term){
+
+        try{
+            Integer.parseInt(term);
+        }
+        catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 }

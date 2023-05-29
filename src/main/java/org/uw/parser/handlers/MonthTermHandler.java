@@ -9,9 +9,9 @@ import org.uw.parser.util.BaseUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HourTermHandler extends BaseTermHandler implements TermHandler{
+public class MonthTermHandler extends BaseTermHandler implements TermHandler{
 
-    public HourTermHandler() {
+    public MonthTermHandler() {
         super();
     }
 
@@ -30,16 +30,16 @@ public class HourTermHandler extends BaseTermHandler implements TermHandler{
 
     @Override
     protected String generate(String term, CronSpecialChar specialChar) throws Exception{
-        StringBuilder builder = new StringBuilder(String.format("%13s","hour "));
+        StringBuilder builder = new StringBuilder(String.format("%13s","month "));
 
         if(specialChar == CronSpecialChar.Base)
             return builder.append(super.generate(term, CronSpecialChar.Base)).toString();
 
         switch (specialChar){
-            case Slash : return builder.append(this.slashHandlerFactory.getSlashHandler(Term.Hour).process(term, Term.Hour)).toString();
-            case Hyphen : return builder.append(this.hyphenHandlerFactory.getHyphenHandler(Term.Hour).process(term, Term.Hour)).toString();
-            case Asterisk: return builder.append(this.asteriskHandlerFactory.getAsteriskHandler(Term.Hour).process(term, Term.Hour)).toString();
-            case Comma: return builder.append(this.commaHandlerFactory.getCommaHandler(Term.Hour).process(term, Term.Hour)).toString();
+            case Slash : return builder.append(this.slashHandlerFactory.getSlashHandler(Term.Month).process(term, Term.Month)).toString();
+            case Hyphen : return builder.append(this.hyphenHandlerFactory.getHyphenHandler(Term.Month).process(term, Term.Month)).toString();
+            case Asterisk: return builder.append(this.asteriskHandlerFactory.getAsteriskHandler(Term.Month).process(term, Term.Month)).toString();
+            case Comma: return builder.append(this.commaHandlerFactory.getCommaHandler(Term.Month).process(term, Term.Month)).toString();
         };
 
         return null;
@@ -52,14 +52,12 @@ public class HourTermHandler extends BaseTermHandler implements TermHandler{
         if(p != CronSpecialChar.Base)
             return true;
 
-        int val = BaseUtil.convertToInt(term, Term.Hour);
+        int val = BaseUtil.convertToInt(term, Term.Month);
 
-        if(p == CronSpecialChar.Base && val < 0 || val > 23)
+        if(p == CronSpecialChar.Base && val <= 0 || val > 12)
             throw new Exception();
 
         return true;
     }
-
-
 
 }

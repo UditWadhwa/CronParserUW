@@ -4,7 +4,7 @@ import org.uw.parser.data.Term;
 
 public class TermHandlersFactory {
 
-    private MonthHandler monthHandler;
+    private MonthTermHandler monthHandler;
     private DayOfMonthTermHandler dayOfMonthTermHandler;
     private CommandHandler commandHandler;
     private DayOfWeekTermHandler dayOfWeekTermHandler;
@@ -13,7 +13,7 @@ public class TermHandlersFactory {
 
     private TermHandlersFactory(){
         //factory = new TermHandlersFactory();
-        monthHandler = new MonthHandler();
+        monthHandler = new MonthTermHandler();
         dayOfWeekTermHandler = new DayOfWeekTermHandler();
         dayOfMonthTermHandler = new DayOfMonthTermHandler();
         commandHandler = new CommandHandler();

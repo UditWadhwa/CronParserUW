@@ -1,9 +1,11 @@
 package org.uw.parser.handlers.regex.asterisk;
 
-public class DayOfMonthAsteriskHandler implements AsteriskHandler{
+import org.uw.parser.ErrorMessages;
+import org.uw.parser.data.Term;
 
-    private static String ALL_MONTH_DAYS;
-    private static int FINAL_DAY_OF_MONTH;
+public class DayOfMonthAsteriskHandler extends BaseAsteriskHandler implements AsteriskHandler{
+
+    private String allMonthDays;
 
     public DayOfMonthAsteriskHandler(){
         StringBuilder builder = new StringBuilder();
@@ -12,14 +14,32 @@ public class DayOfMonthAsteriskHandler implements AsteriskHandler{
         }
 
         builder.deleteCharAt(61);
-        ALL_MONTH_DAYS = builder.toString();
-
+        allMonthDays = builder.toString().trim();
     }
-
-
 
     @Override
-    public String process() {
-        return ALL_MONTH_DAYS;
+    public void validate(String termStr, Term term) throws Exception{
+        super.validate(termStr, term);
+        if(hasIncrement && (incrementBy > 31 || incrementBy < 0)){
+            throw new Exception(ErrorMessages.INVALID_STEP_RANGE_FOR_FIELD +" 31" + ". Range-"+ incrementBy
+                    + ". Term-"+ term);
+        }
     }
+
+    @Override
+    public String process(String termStr, Term term) throws Exception {
+        validate(termStr, term);
+        if(!hasIncrement)
+            return allMonthDays;
+        if(incrementBy == 0)
+            incrementBy = 1;
+
+        StringBuilder builder= new StringBuilder();
+        for(int i=1; i <= 31; i+=incrementBy){
+            builder.append(i).append(" ");
+        }
+
+        return builder.toString().trim();
+    }
+
 }

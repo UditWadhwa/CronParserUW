@@ -1,5 +1,11 @@
 package org.uw.parser.handlers;
 
+import org.uw.parser.ErrorMessages;
+import org.uw.parser.data.CronSpecialChar;
+import org.uw.parser.data.Expression;
+import org.uw.parser.data.Term;
+import org.uw.parser.util.BaseUtil;
+
 public class CommandHandler extends BaseTermHandler implements TermHandler{
 
     public CommandHandler(){
@@ -7,14 +13,27 @@ public class CommandHandler extends BaseTermHandler implements TermHandler{
     }
 
     @Override
-    public String process(String term) throws Exception {
-        StringBuilder builder = new StringBuilder("command \t");
-        builder.append(term);
-        return builder.toString();
+    public String process(String term, Expression expr) throws Exception{
+
+        classify(term);
+        CronSpecialChar pattern = CronSpecialChar.Base;
+        validate(pattern, term);
+
+        return generate(term, pattern);
     }
 
     @Override
-    public void preProcess() {
+    protected String generate(String term, CronSpecialChar specialChar) throws Exception{
+        StringBuilder builder = new StringBuilder(String.format("%13s","command "));
 
+        if(specialChar == CronSpecialChar.Base)
+            return builder.append(super.generate(term, CronSpecialChar.Base)).toString();
+
+        return null;
+    }
+
+    @Override
+    public boolean validate(CronSpecialChar p, String term) throws Exception {
+        return true;
     }
 }

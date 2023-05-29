@@ -13,11 +13,11 @@ public class CommaHandlerFactory {
     private MonthCommaHandler monthCommaHandler;
 
     private CommaHandlerFactory(){
-        factory.hourCommaHandler = new HourCommaHandler();
-        factory.minuteCommaHandler = new MinuteCommaHandler();
-        factory.dayOfMonthCommaHandler  = new DayOfMonthCommaHandler();
-        factory.dayOfWeekCommaHandler = new DayOfWeekCommaHandler();
-        factory.monthCommaHandler = new MonthCommaHandler();
+        hourCommaHandler = new HourCommaHandler();
+        minuteCommaHandler = new MinuteCommaHandler();
+        dayOfMonthCommaHandler  = new DayOfMonthCommaHandler();
+        dayOfWeekCommaHandler = new DayOfWeekCommaHandler();
+        monthCommaHandler = new MonthCommaHandler();
     }
 
     public static CommaHandlerFactory getInstance(){
@@ -26,7 +26,7 @@ public class CommaHandlerFactory {
         return factory;
     }
 
-    public static CommaHandler getCommaHandler(Term term){
+    public CommaHandler getCommaHandler(Term term){
         switch (term){
             case Hour -> {
                 return factory.hourCommaHandler;

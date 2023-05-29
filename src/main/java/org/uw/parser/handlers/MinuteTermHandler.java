@@ -1,6 +1,8 @@
 package org.uw.parser.handlers;
 
+import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.CronSpecialChar;
+import org.uw.parser.data.Expression;
 import org.uw.parser.data.Term;
 import org.uw.parser.util.BaseUtil;
 
@@ -18,7 +20,7 @@ public class MinuteTermHandler extends BaseTermHandler implements TermHandler{
 
 
     @Override
-    public String process(String term) throws Exception{
+    public String process(String term, Expression expr) throws Exception{
 
         CronSpecialChar pattern = classify(term);
         validate(pattern, term);
@@ -27,16 +29,17 @@ public class MinuteTermHandler extends BaseTermHandler implements TermHandler{
     }
 
     @Override
-    protected String generate(String term, CronSpecialChar specialChar) {
-        StringBuilder builder = new StringBuilder("minute \t");
+    protected String generate(String term, CronSpecialChar specialChar) throws Exception{
+        StringBuilder builder = new StringBuilder(String.format("%13s","minute "));
 
         if(specialChar == CronSpecialChar.Base)
             return builder.append(super.generate(term, CronSpecialChar.Base)).toString();
 
         switch (specialChar){
-            case Slash : return builder.append(this.slashHandlerFactory.getSlashHandler(Term.Minute).process(term)).toString();
-            case Hyphen : return builder.append(this.hyphenHandlerFactory.getHyphenHandler(Term.Minute).process(term)).toString();
-            case Asterisk: return builder.append(this.asteriskHandlerFactory.getAsteriskHandler(Term.Minute).process()).toString();
+            case Slash : return builder.append(this.slashHandlerFactory.getSlashHandler(Term.Minute).process(term, Term.Minute)).toString();
+            case Hyphen : return builder.append(this.hyphenHandlerFactory.getHyphenHandler(Term.Minute).process(term, Term.Minute)).toString();
+            case Asterisk: return builder.append(this.asteriskHandlerFactory.getAsteriskHandler(Term.Minute).process(term, Term.Minute)).toString();
+            case Comma: return builder.append(this.commaHandlerFactory.getCommaHandler(Term.Minute).process(term, Term.Minute)).toString();
         };
 
         return null;
@@ -45,7 +48,10 @@ public class MinuteTermHandler extends BaseTermHandler implements TermHandler{
     @Override
     public boolean validate(CronSpecialChar p, String term) throws Exception {
         if(blackListed.contains(p))
-            throw new Exception();
+            throw new Exception(ErrorMessages.INVALID_PATTERN_FOR_TERM + " Pattern - "+ p + " Term -" + term);
+        if(p != CronSpecialChar.Base)
+            return true;
+
         int val = BaseUtil.convertToInt(term, Term.Minute);
 
         if(p == CronSpecialChar.Base && val < 0 || val > 59)

@@ -1,27 +1,33 @@
 package org.uw.parser.handlers.regex.comma;
 
+import org.uw.parser.ErrorMessages;
+import org.uw.parser.data.Term;
+import org.uw.parser.util.BaseConstants;
+import org.uw.parser.util.BaseUtil;
+
 public class DayOfMonthCommaHandler extends BaseCommaHandler implements CommaHandler {
 
+    private StringBuilder builder;
+
     @Override
-    protected boolean isValid(String term) {
-        if(term.isEmpty())
-            return false;
+    protected void validate(String termStr, Term term) throws Exception {
+        super.validate(termStr, term);
+        builder = new StringBuilder();
+        String[] termSplit = termStr.split("\\,");
 
-        Integer val = null;
-        try{
-            val  = Integer.parseInt(term);
+        for(int i=0; i< termSplit.length;i++){
+            int val = BaseUtil.convertToInt(termSplit[i], term);
+            if(val <= 0 || val > 12)
+                throw new Exception(ErrorMessages.INCORRECT_MONTH_NUMERIC +" Term-" + term.toString());
+
+            builder.append(val).append(" ");
         }
-        catch (Exception e){
-
-        }
-        if(val == null || val < 0 || val > 31)
-            return false;
-
-        return true;
     }
 
     @Override
-    public String process(String term) throws Exception {
-        return super.process(term);
+    public String process(String termStr, Term term) throws Exception {
+        validate(termStr, term);
+        return builder.toString().trim();
     }
+
 }

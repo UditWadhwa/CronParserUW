@@ -16,7 +16,7 @@ public class CommandListener {
         this.processor = new CommandProcessor();
     }
 
-    public static void main(String []argv){
+    public static void main1(String []argv){
         System.out.println(Pattern.matches("[A-Z]{3}-[A-Z]{3}", "1-FRI"));
         System.out.println(Pattern.matches("[0-7]-[0-7]", "1-7"));
         System.out.println(Pattern.matches("[0-9]+/[0-9]+", "A/7"));
@@ -29,7 +29,7 @@ public class CommandListener {
 
     }
 
-    public static void main1(String args[]){
+    public static void main(String args[]){
         CommandListener obj = new CommandListener();
         while(true){
             Scanner scanner = new Scanner(System.in);
