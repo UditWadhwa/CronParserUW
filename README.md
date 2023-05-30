@@ -12,12 +12,19 @@ Following Cron Special characters are supported so far:
 4. Hyphen - 
 
 Sample valid inputs:
+```
+
 1. 4-34/3 2-17/3 5-25/5 JAN-JUL/2 MON-FRI/2 /abcdc
 2. * * * * * /abcd
 3. */10 * * * * /abd
 4. 4-58 * 20-30 5,11,10 WED-SAT /abcd
 
+```
+Refer [link](https://docs.oracle.com/cd/E12058_01/doc/doc.1014/e12030/cron_expressions.htm) for more sample expressions.
+
 Sample output for the first case:
+```
+
       minute 4 7 10 13 16 19 22 25 28 31 34
         hour 2 5 8 11 14 17
 day of month 5 10 15 20 25
@@ -25,6 +32,7 @@ day of month 5 10 15 20 25
  day of week MON WED FRI
      command /abcdc
 
+```
 
-To exit from the program, simply type "exit" on the command line.
+To exit from the program, simply type ***exit*** on the command line.
 
