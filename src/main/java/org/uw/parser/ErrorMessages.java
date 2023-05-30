@@ -2,6 +2,10 @@ package org.uw.parser;
 
 public class ErrorMessages {
 
+    public static final String INVALID_CHAR_EXPR = "Invalid expression. Please check the cron expression. [%s] character is invalid in term-[%s].";
+    public static final String INVALID_CHAR_EXPR_LENGTH = "Invalid expression. Please check the length of cron expression term-[%s]. Not more than [%d] chars are allowed.";
+    public static final String INVALID_EXPR = "Invalid expression. Please check the cron expression" +
+            " syntax [min hour day_of_month month day_of_week command].";
     public static final String INCORRECT_ASTERISK_TERM = "Incorrect Asterisk Term";
     public static final String INCORRECT_COMMA_TERM = "Invalid comma expression.";
     public static final String INVALID_OPERANDS = "Invalid operands for the term";

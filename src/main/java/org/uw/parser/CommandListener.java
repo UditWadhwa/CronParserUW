@@ -1,7 +1,6 @@
 package org.uw.parser;
 
-import org.uw.parser.data.Expression;
-import org.uw.parser.validators.BaseValidator;
+
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -49,6 +48,7 @@ day of month 5 10 15 20 25
             else if(line.isBlank())
                 continue;
             try {
+                baseValidator.validate(line);
                 System.out.println(obj.processor.process(line));
             }
             catch (Exception e){
