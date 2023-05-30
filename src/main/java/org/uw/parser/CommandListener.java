@@ -26,7 +26,16 @@ public class CommandListener {
         System.out.println(Pattern.matches("\\*$", "*"));
         System.out.println(Pattern.matches("\\?$", "?"));
         System.out.println(Pattern.matches("([A-Z]{3},){1,}[A-Z]{3}$", "ACC,ABB,AAA,CCC"));
+        /*
+        4-34/3 2-17/3 5-25/5 JAN-JUL/2 MON-FRI/2 /abcdc
+      minute 4 7 10 13 16 19 22 25 28 31 34
+        hour 2 5 8 11 14 17
+day of month 5 10 15 20 25
+       month JAN MAR MAY JUL
+ day of week MON WED FRI
+     command /abcdc
 
+         */
     }
 
     public static void main(String args[]){

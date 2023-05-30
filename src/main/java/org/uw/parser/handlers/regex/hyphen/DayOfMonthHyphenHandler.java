@@ -17,9 +17,14 @@ public class DayOfMonthHyphenHandler extends BaseHyphenHandler implements Hyphen
         String[] termSplit = termStr.split("-");
         if(isNumeric(termSplit[0])) {
             val1 = BaseUtil.convertToInt(termSplit[0], term);
-            val2 = BaseUtil.convertToInt(termSplit[1], term);
-            if(val1 <= 0 || val2 > 31)
-                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+            if(hasIncrement)
+                val2 = BaseUtil.convertToInt(termSplit[1].substring(0, termSplit[1].indexOf('/')), term);
+            else
+                val2 = BaseUtil.convertToInt(termSplit[1], term);
+            if(val1 <= 0 || val1 > 31 || val2 <= 0 || val2 > 31)
+                throw new Exception(String.format(ErrorMessages.INVALID_OPERANDS_HYPHEN, val1, val2, term, 1, 31));
+            if(val1 > val2)
+                throw new Exception(String.format(ErrorMessages.INCORRECT_HYPHEN_RANGE_FROM, val1, val2, term));
             isNumeric = true;
         }
         else {

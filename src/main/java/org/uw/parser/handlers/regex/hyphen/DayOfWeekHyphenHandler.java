@@ -17,13 +17,23 @@ public class DayOfWeekHyphenHandler extends BaseHyphenHandler implements HyphenH
         String[] termSplit = termStr.split("-");
         if(isNumeric(termSplit[0])) {
             val1 = BaseUtil.convertToInt(termSplit[0], term);
-            val2 = BaseUtil.convertToInt(termSplit[1], term);
-            if(val1 <= 0 || val2 > 12)
-                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+            if(hasIncrement)
+                val2 = BaseUtil.convertToInt(termSplit[1].substring(0, termSplit[1].indexOf('/')), term);
+            else
+                val2 = BaseUtil.convertToInt(termSplit[1], term);
+            if(val1 < 0 || val1 > 7 || val2 < 0 || val2 > 7)
+                throw new Exception(String.format(ErrorMessages.INVALID_OPERANDS_HYPHEN, val1, val2, term, 0, 7));
+
+            if(val1 > val2)
+                throw new Exception(String.format(ErrorMessages.INCORRECT_HYPHEN_RANGE_FROM, val1, val2, term));
             isNumeric = true;
         }
         else {
-            day1 = termSplit[0]; day2 = termSplit[1];
+            day1 = termSplit[0];
+            if(hasIncrement)
+                day2 = termSplit[1].substring(0, termSplit[1].indexOf('/'));
+            else
+                day2 = termSplit[1];
             if(!BaseConstants.DAY_OF_WEEK_TERMS.contains(day1) || !BaseConstants.DAY_OF_WEEK_TERMS.contains(day2))
                 throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
         }
