@@ -1,44 +1,46 @@
 package org.uw.parser.handlers.regex.hyphen;
 
-import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.IncorrectMonthInputException;
+import org.uw.parser.exception.InvalidStepRangeException;
+import org.uw.parser.exception.NumericInvalidRangeException;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
 public class MonthHyphenHandler extends BaseHyphenHandler implements HyphenHandler {
 
-    private int val1, val2;
+    private int monthFromValue, monthToValue;
     private boolean isNumeric;
-    private String month1, month2;
+    private String monthFromValueText, monthToValueText;
 
     @Override
     protected void validate(String termStr, Term term) throws Exception {
         super.validate(termStr, term);
         String[] termSplit = termStr.split("-");
         if(isNumeric(termSplit[0])) {
-            val1 = BaseUtil.convertToInt(termSplit[0], term);
+            monthFromValue = BaseUtil.convertToInt(termSplit[0], term);
             if(hasIncrement)
-                val2 = BaseUtil.convertToInt(termSplit[1].substring(0, termSplit[1].indexOf('/')), term);
+                monthToValue = BaseUtil.convertToInt(termSplit[1].substring(0, termSplit[1].indexOf('/')), term);
             else
-                val2 = BaseUtil.convertToInt(termSplit[1], term);
-            if(val1 <= 0 || val1>12 || val2 <= 0 || val2 > 12)
-                throw new Exception(String.format(ErrorMessages.INVALID_OPERANDS_HYPHEN, val1, val2, term, 1, 12));
-            if(val1 > val2)
-                throw new Exception(String.format(ErrorMessages.INCORRECT_HYPHEN_RANGE_FROM, val1, val2, term));
+                monthToValue = BaseUtil.convertToInt(termSplit[1], term);
+            if(monthFromValue <= 0 || monthFromValue >12 || monthToValue <= 0 || monthToValue > 12)
+                throw new NumericOutOfRangeException(monthFromValue, monthToValue, 1, 12, term);
+            if(monthFromValue > monthToValue)
+                throw new NumericInvalidRangeException(monthFromValue, monthToValue, term);
             isNumeric = true;
         }
         else {
-            month1 = termSplit[0];
+            monthFromValueText = termSplit[0];
             if(hasIncrement)
-                month2 = termSplit[1].substring(0, termSplit[1].indexOf('/'));
+                monthToValueText = termSplit[1].substring(0, termSplit[1].indexOf('/'));
             else
-                month2 = termSplit[1];
-            if(!BaseConstants.MONTH_TERMS.contains(month1) || !BaseConstants.MONTH_TERMS.contains(month2))
-                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+                monthToValueText = termSplit[1];
+            if(!BaseConstants.MONTH_TERMS.contains(monthFromValueText) || !BaseConstants.MONTH_TERMS.contains(monthToValueText))
+                throw new IncorrectMonthInputException(termStr, term);
         }
         if(hasIncrement && (incrementBy > 12 || incrementBy < 0)){
-            throw new Exception(ErrorMessages.INVALID_STEP_RANGE_FOR_FIELD + "12" + ". Range-"+ incrementBy +
-                    ". Term-"+term);
+            throw new InvalidStepRangeException(termStr, 0, 12, term);
         }
     }
 
@@ -50,21 +52,26 @@ public class MonthHyphenHandler extends BaseHyphenHandler implements HyphenHandl
         if(incrementBy == 0)
             incrementBy =1;
         if(isNumeric){
-            for(int i=val1; i<=val2; i+= incrementBy){
+            for(int i = monthFromValue; i<= monthToValue; i+= incrementBy){
                 builder.append(i).append(" ");
             }
         }
         else {
-            boolean found  = false;
-            for(int i= 0; i < BaseConstants.MONTH_TERMS.size(); i+=incrementBy){
-                if(BaseConstants.MONTH_TERMS.get(i).equals(month1))
-                    found= true;
-
-                if(found)
+            boolean found = false;
+            int j=0;
+            for(int i= 0; i < BaseConstants.MONTH_TERMS.size(); i++){
+                if(BaseConstants.MONTH_TERMS.get(i).equals(monthFromValueText)) {
+                    found = true;
+                    j = 0;
+                }
+                if(found && j % incrementBy == 0)
                     builder.append(BaseConstants.MONTH_TERMS.get(i)).append(" ");
+                if(found)
+                    j++;
 
-                if(BaseConstants.MONTH_TERMS.get(i).equals(month2))
+                if(BaseConstants.MONTH_TERMS.get(i).equals(monthToValueText)) {
                     break;
+                }
             }
         }
 

@@ -1,9 +1,10 @@
 package org.uw.parser.handlers;
 
-import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.CronSpecialChar;
 import org.uw.parser.data.Expression;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.InvalidTermCharacterException;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseUtil;
 
 import java.util.ArrayList;
@@ -45,17 +46,16 @@ public class MonthTermHandler extends BaseTermHandler implements TermHandler{
         return null;
     }
 
-    @Override
-    public boolean validate(CronSpecialChar p, String term) throws Exception {
+    private boolean validate(CronSpecialChar p, String term) throws Exception {
         if(blackListed.contains(p))
-            throw new Exception(ErrorMessages.INVALID_PATTERN_FOR_TERM + " Pattern - "+ p + " Term -" + term);
+            throw new InvalidTermCharacterException(p.toString(), Term.Month);
         if(p != CronSpecialChar.Base)
             return true;
 
         int val = BaseUtil.convertToInt(term, Term.Month);
 
         if(p == CronSpecialChar.Base && val <= 0 || val > 12)
-            throw new Exception();
+            throw new NumericOutOfRangeException(term, 1, 12, Term.Month);
 
         return true;
     }

@@ -1,7 +1,8 @@
 package org.uw.parser.handlers.regex.comma;
 
-import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.IncorrectDayInputException;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
@@ -25,7 +26,7 @@ public class DayOfWeekCommaHandler extends  BaseCommaHandler implements CommaHan
     private void handleTextual(String[] termSplit) throws Exception{
         for(int i=0; i< termSplit.length;i++){
             if(!BaseConstants.DAY_OF_WEEK_TERMS.contains(termSplit[i]))
-                throw new Exception(ErrorMessages.INCORRECT_DAY_OF_WEEK_TERMS +" Term-" + Term.DayOfWeek);
+                throw new IncorrectDayInputException(termSplit[i], Term.DayOfWeek);
 
             builder.append(termSplit[i]).append(" ");
         }
@@ -34,8 +35,8 @@ public class DayOfWeekCommaHandler extends  BaseCommaHandler implements CommaHan
     private void handleNumeric(String[] termSplit) throws Exception{
         for(int i=0; i< termSplit.length;i++){
             int val = BaseUtil.convertToInt(termSplit[i], Term.DayOfWeek);
-            if(val <= 0 || val > 7)
-                throw new Exception(ErrorMessages.INCORRECT_DAY_OF_WEEK_NUMERIC +" Term-" + Term.DayOfWeek);
+            if(val < 0 || val > 7)
+                throw new NumericOutOfRangeException(termSplit[i], 0, 7, Term.DayOfWeek);
 
             builder.append(val).append(" ");
         }

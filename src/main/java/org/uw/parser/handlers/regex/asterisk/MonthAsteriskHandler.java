@@ -2,6 +2,7 @@ package org.uw.parser.handlers.regex.asterisk;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.InvalidStepRangeException;
 
 public class MonthAsteriskHandler extends  BaseAsteriskHandler implements AsteriskHandler{
 
@@ -16,11 +17,10 @@ public class MonthAsteriskHandler extends  BaseAsteriskHandler implements Asteri
     }
 
     @Override
-    public void validate(String termStr, Term term) throws Exception{
+    protected void validate(String termStr, Term term) throws Exception{
         super.validate(termStr, term);
         if(hasIncrement && (incrementBy > 12 || incrementBy < 0)){
-            throw new Exception(ErrorMessages.INVALID_STEP_RANGE_FOR_FIELD + "12" + ". Range-"+ incrementBy +
-                    ". Term-"+term);
+            throw new InvalidStepRangeException(termStr, 0, 12, term);
         }
     }
     @Override

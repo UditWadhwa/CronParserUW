@@ -3,7 +3,7 @@ package org.uw.parser.util;
 import java.util.*;
 
 public class BaseConstants {
-    private static final String[] DAYS = {"MON", "TUE", "WED", "THUR", "FRI", "SAT", "SUN"};
+    private static final String[] DAYS = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     private static final String[] MONTHS = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP",
     "OCT", "NOV", "DEC"};
 

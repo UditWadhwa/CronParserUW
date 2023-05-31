@@ -1,45 +1,47 @@
 package org.uw.parser.handlers.regex.hyphen;
 
-import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.IncorrectDayInputException;
+import org.uw.parser.exception.InvalidStepRangeException;
+import org.uw.parser.exception.NumericInvalidRangeException;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
 public class DayOfWeekHyphenHandler extends BaseHyphenHandler implements HyphenHandler {
 
-    private int val1, val2;
+    private int dayFromValue, dayToValue;
     private boolean isNumeric;
-    private String day1, day2;
+    private String dayFromValueText, dayToValueText;
 
     @Override
     protected void validate(String termStr, Term term) throws Exception {
         super.validate(termStr, term);
         String[] termSplit = termStr.split("-");
         if(isNumeric(termSplit[0])) {
-            val1 = BaseUtil.convertToInt(termSplit[0], term);
+            dayFromValue = BaseUtil.convertToInt(termSplit[0], term);
             if(hasIncrement)
-                val2 = BaseUtil.convertToInt(termSplit[1].substring(0, termSplit[1].indexOf('/')), term);
+                dayToValue = BaseUtil.convertToInt(termSplit[1].substring(0, termSplit[1].indexOf('/')), term);
             else
-                val2 = BaseUtil.convertToInt(termSplit[1], term);
-            if(val1 < 0 || val1 > 7 || val2 < 0 || val2 > 7)
-                throw new Exception(String.format(ErrorMessages.INVALID_OPERANDS_HYPHEN, val1, val2, term, 0, 7));
+                dayToValue = BaseUtil.convertToInt(termSplit[1], term);
+            if(dayFromValue < 0 || dayFromValue > 7 || dayToValue < 0 || dayToValue > 7)
+                throw new NumericOutOfRangeException(dayFromValue, dayToValue, 0, 7, term);
 
-            if(val1 > val2)
-                throw new Exception(String.format(ErrorMessages.INCORRECT_HYPHEN_RANGE_FROM, val1, val2, term));
+            if(dayFromValue > dayToValue)
+                throw new NumericInvalidRangeException(dayFromValue, dayToValue, term);
             isNumeric = true;
         }
         else {
-            day1 = termSplit[0];
+            dayFromValueText = termSplit[0];
             if(hasIncrement)
-                day2 = termSplit[1].substring(0, termSplit[1].indexOf('/'));
+                dayToValueText = termSplit[1].substring(0, termSplit[1].indexOf('/'));
             else
-                day2 = termSplit[1];
-            if(!BaseConstants.DAY_OF_WEEK_TERMS.contains(day1) || !BaseConstants.DAY_OF_WEEK_TERMS.contains(day2))
-                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+                dayToValueText = termSplit[1];
+            if(!BaseConstants.DAY_OF_WEEK_TERMS.contains(dayFromValueText) || !BaseConstants.DAY_OF_WEEK_TERMS.contains(dayToValueText))
+                throw new IncorrectDayInputException(termStr, term);
         }
         if(hasIncrement && (incrementBy > 7 || incrementBy < 0)){
-            throw new Exception(ErrorMessages.INVALID_STEP_RANGE_FOR_FIELD +" 7" + ". Range-"+ incrementBy
-                    + ". Term-"+ term);
+            throw new InvalidStepRangeException(termStr, 0, 7, term);
         }
     }
 
@@ -52,21 +54,26 @@ public class DayOfWeekHyphenHandler extends BaseHyphenHandler implements HyphenH
             incrementBy = 1;
 
         if(isNumeric){
-            for(int i=val1; i<=val2; i+=incrementBy){
+            for(int i = dayFromValue; i<= dayToValue; i+=incrementBy){
                 builder.append(i).append(" ");
             }
         }
         else {
-            boolean found  = false;
-            for(int i= 0; i < BaseConstants.DAY_OF_WEEK_TERMS.size(); i+=incrementBy){
-                if(BaseConstants.DAY_OF_WEEK_TERMS.get(i).equals(day1))
-                    found= true;
-
-                if(found)
+            boolean found = false;
+            int j=0;
+            for(int i= 0; i < BaseConstants.DAY_OF_WEEK_TERMS.size(); i++){
+                if(BaseConstants.DAY_OF_WEEK_TERMS.get(i).equals(dayFromValueText)) {
+                    found = true;
+                    j = 0;
+                }
+                if(found && j % incrementBy == 0)
                     builder.append(BaseConstants.DAY_OF_WEEK_TERMS.get(i)).append(" ");
+                if(found)
+                    j++;
 
-                if(BaseConstants.DAY_OF_WEEK_TERMS.get(i).equals(day2))
+                if(BaseConstants.DAY_OF_WEEK_TERMS.get(i).equals(dayToValueText)) {
                     break;
+                }
             }
         }
 

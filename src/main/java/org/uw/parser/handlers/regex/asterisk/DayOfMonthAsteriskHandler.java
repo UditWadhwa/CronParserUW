@@ -2,6 +2,7 @@ package org.uw.parser.handlers.regex.asterisk;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.InvalidStepRangeException;
 
 public class DayOfMonthAsteriskHandler extends BaseAsteriskHandler implements AsteriskHandler{
 
@@ -18,11 +19,10 @@ public class DayOfMonthAsteriskHandler extends BaseAsteriskHandler implements As
     }
 
     @Override
-    public void validate(String termStr, Term term) throws Exception{
+    protected void validate(String termStr, Term term) throws Exception{
         super.validate(termStr, term);
         if(hasIncrement && (incrementBy > 31 || incrementBy < 0)){
-            throw new Exception(ErrorMessages.INVALID_STEP_RANGE_FOR_FIELD +" 31" + ". Range-"+ incrementBy
-                    + ". Term-"+ term);
+            throw new InvalidStepRangeException(termStr, 0, 31, term);
         }
     }
 

@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class BaseValidator {
 
+    // Interface is better, and have impls
+
     private static final char[] BLACKLISTED_CHARS = {'`', '!', '@', '$', '%', '^', '&', '(',')',
     '_', '=', '+', '"', ';', ':', '[', ']', '{', '}', '.','|', '~', '\n', '\t', '\r'};
 

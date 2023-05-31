@@ -1,6 +1,7 @@
 package org.uw.parser.util;
 
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.NumericParseException;
 
 public class BaseUtil {
 
@@ -10,9 +11,9 @@ public class BaseUtil {
             val = Integer.parseInt(termStr);
         }
         catch (Exception e){
-            throw new Exception("Error while converting string to integer. Term-" + term.toString());
+            throw new NumericParseException(termStr, term);
         }
-        return (int) val;
+        return  val;
     }
 
 }

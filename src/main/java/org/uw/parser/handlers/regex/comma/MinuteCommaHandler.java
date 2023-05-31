@@ -2,6 +2,7 @@ package org.uw.parser.handlers.regex.comma;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseUtil;
 
 public class MinuteCommaHandler extends BaseCommaHandler implements CommaHandler {
@@ -17,7 +18,7 @@ public class MinuteCommaHandler extends BaseCommaHandler implements CommaHandler
         for(int i=0; i< termSplit.length;i++){
             int val = BaseUtil.convertToInt(termSplit[i], term);
             if(val < 0 || val > 59)
-                throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term-" + term.toString());
+                throw new NumericOutOfRangeException(termSplit[i], 0, 59, term);
 
             builder.append(val).append(" ");
         }

@@ -1,0 +1,72 @@
+1
+      minute 4 11 18 25 32 39 46
+        hour 4 14
+day of month 5 25
+       month FEB MAR APR MAY JUN JUL AUG SEP OCT
+ day of week MON TUE WED THU
+     command /acd
+2
+      minute 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
+        hour 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+day of month 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 2 25 26 27 28 29 30 31
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week 1 2 3 4 5 6 7
+     command /abd
+3
+      minute 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+        hour 4 14
+day of month 5 25
+       month FEB MAR APR MAY JUN JUL AUG SEP OCT
+ day of week 1 2 3 4 5 6
+     command /acd
+4
+      minute 4 16 28 40 52
+        hour 4 9 14 19
+day of month 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 2 25 26 27 28 29 30 31
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week SUN
+     command /acd
+5
+      minute 4 16 28 40 52
+        hour 4 9 14 19
+day of month 5 30 11
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week SUN
+     command /ad
+6
+      minute 4 7 10 13 16 19 22 25 28 31 34
+        hour 2 5 8 11 14 17
+day of month 5 10 15 20 25
+       month JAN MAR MAY JUL
+ day of week MON WED FRI
+     command /abcdc
+7
+      minute 56
+        hour 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+day of month 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 2 25 26 27 28 29 30 31
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week 1 2 3 4 5 6 7
+     command /ss
+8
+      minute 4
+        hour 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+day of month 1 11 21 31
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week 1 2 3 4 5 6 7
+     command /ss
+9
+      minute 4 9 14 19
+        hour 4 14
+day of month 4 14 24
+       month JAN FEB MAR APR MAY JUN JUL AUG SEP
+ day of week TUE THU SAT
+     command /dhjd
+10
+      minute 4
+        hour 3
+day of month 30
+       month FEB MAY AUG NOV
+ day of week MON FRI
+     command /dd
+
+

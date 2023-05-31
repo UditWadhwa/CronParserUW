@@ -6,9 +6,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.uw.parser.data.Expression;
-import org.uw.parser.handlers.BaseTermHandler;
 import org.uw.parser.handlers.TermHandler;
 import org.uw.parser.handlers.TermHandlersFactory;
 
@@ -26,9 +24,8 @@ public class CommandProcessorTest {
 
     @Before
     public void setup(){
-        obj = new CommandProcessor();
         MockitoAnnotations.initMocks(this);
-        ReflectionTestUtils.setField(obj, "termHandlersFactory", termHandlersFactory);
+        obj = new CommandProcessor(termHandlersFactory);
     }
 
     @Test

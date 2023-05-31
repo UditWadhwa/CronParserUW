@@ -1,20 +1,34 @@
 package org.uw.parser.handlers.regex.slash;
 
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.IncorrectMonthInputException;
+import org.uw.parser.exception.NumericOutOfRangeException;
+import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
 public class MonthSlashHandler extends BaseSlashHandler implements SlashHandler {
 
-    private int val1, val2;
+    private int beginValue, stepRangeValue;
+    private String beginTextValue;
 
     @Override
-    public void validate(String termStr, Term term) throws Exception {
+    protected void validate(String termStr, Term term) throws Exception {
         super.validate(termStr, term);
         String[] termSplit = termStr.split("/");
-        val1 = BaseUtil.convertToInt(termSplit[0], term);
-        val2 = BaseUtil.convertToInt(termSplit[1], term);
-        if(val1 <= 0 || val1 > 12 || val2 < 0 || val2 > 12)
-            throw new Exception("Invalid operands. Term-" + term.toString());
+
+        if (hasTextData) {
+            beginTextValue = termSplit[0];
+            if(!BaseConstants.MONTH_TERMS.contains(beginTextValue))
+                throw new IncorrectMonthInputException(termStr, term);
+        } else {
+            beginValue = BaseUtil.convertToInt(termSplit[0], term);
+            if(beginValue <= 0 || beginValue > 12 )
+                throw new NumericOutOfRangeException(beginValue, stepRangeValue, 0, 12, term);
+        }
+        stepRangeValue = BaseUtil.convertToInt(termSplit[1], term);
+        if( stepRangeValue < 0 || stepRangeValue > 12)
+            throw new NumericOutOfRangeException(beginValue, stepRangeValue, 0, 12, term);
+
     }
 
     @Override
@@ -22,20 +36,24 @@ public class MonthSlashHandler extends BaseSlashHandler implements SlashHandler 
         validate(termStr, term);
 
         StringBuilder builder = new StringBuilder();
-
         int i;
-        if(val2 == 0)
-            val2 = 1;
+        if (stepRangeValue == 0)
+            stepRangeValue = 1;
 
-        for( i=val1; i<= 12; i+=val2){
-            builder.append(i).append(" ");
+        if(hasTextData){
+            int j=0;
+            for( i= BaseConstants.MONTH_TERMS.indexOf(beginTextValue); i < BaseConstants.MONTH_TERMS.size(); i++){
+                if( j % stepRangeValue == 0)
+                    builder.append(BaseConstants.MONTH_TERMS.get(i)).append(" ");
+                j++;
+            }
+        }
+        else {
+            for (i = beginValue; i <= 12; i += stepRangeValue) {
+                builder.append(i).append(" ");
+            }
         }
 
-        /*i %=12;
-        for(; i < val1; i+= val2){
-            builder.append(i).append(" ");
-        }
-        */
         return builder.toString().trim();
     }
 }

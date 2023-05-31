@@ -4,44 +4,22 @@ import org.uw.parser.data.Term;
 
 public class AsteriskHandlerFactory {
 
-    private static AsteriskHandlerFactory factory;
-
-    private HourAsteriskHandler hourAsteriskHandler;
-    private MinuteAsteriskHandler minuteAsteriskHandler;
-    private DayOfMonthAsteriskHandler dayOfMonthAsteriskHandler;
-    private DayOfWeekAsteriskHandler dayOfWeekAsteriskHandler;
-    private MonthAsteriskHandler monthAsteriskHandler;
-
-    private AsteriskHandlerFactory(){
-        hourAsteriskHandler = new HourAsteriskHandler();
-        minuteAsteriskHandler = new MinuteAsteriskHandler();
-        dayOfMonthAsteriskHandler  = new DayOfMonthAsteriskHandler();
-        dayOfWeekAsteriskHandler = new DayOfWeekAsteriskHandler();
-        monthAsteriskHandler = new MonthAsteriskHandler();
-    }
-
-    public static AsteriskHandlerFactory getInstance(){
-        if(factory == null)
-            factory = new AsteriskHandlerFactory();
-        return factory;
-    }
-
     public AsteriskHandler getAsteriskHandler(Term term){
         switch (term){
             case Hour -> {
-                return factory.hourAsteriskHandler;
+                return new HourAsteriskHandler();
             }
             case Minute -> {
-                return factory.minuteAsteriskHandler;
+                return new MinuteAsteriskHandler();
             }
             case DayOfMonth -> {
-                return factory.dayOfMonthAsteriskHandler;
+                return new DayOfMonthAsteriskHandler();
             }
             case DayOfWeek -> {
-                return factory.dayOfWeekAsteriskHandler;
+                return new DayOfWeekAsteriskHandler();
             }
             case Month -> {
-                return factory.monthAsteriskHandler;
+                return new MonthAsteriskHandler();
             }
         };
 

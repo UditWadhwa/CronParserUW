@@ -10,12 +10,13 @@ public class CommandProcessor {
     private TermHandlersFactory termHandlersFactory;
     private Expression expr;
 
+
     public Expression getExpr() {
         return expr;
     }
 
-    public CommandProcessor(){
-        termHandlersFactory = TermHandlersFactory.getInstance();
+    public CommandProcessor(TermHandlersFactory factory){
+        termHandlersFactory = factory;
     }
 
     public String process(String exprString) throws Exception{

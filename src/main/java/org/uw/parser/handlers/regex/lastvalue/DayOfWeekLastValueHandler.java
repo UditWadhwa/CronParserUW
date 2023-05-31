@@ -2,12 +2,13 @@ package org.uw.parser.handlers.regex.lastvalue;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
 public class DayOfWeekLastValueHandler extends BaseLastValueHandler implements LastValueHandler {
 
-    private int val1;
+    private int lastValuePrefix;
     boolean noPrefix;
     @Override
     protected void validate(String termStr, Term term) throws Exception {
@@ -18,9 +19,9 @@ public class DayOfWeekLastValueHandler extends BaseLastValueHandler implements L
             return;
         }
 
-        val1 = BaseUtil.convertToInt(termStr.substring(0, in), term);
-        if(val1 <= 0 || val1 > 7)
-            throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+        lastValuePrefix = BaseUtil.convertToInt(termStr.substring(0, in), term);
+        if(lastValuePrefix <= 0 || lastValuePrefix > 7)
+            throw new NumericOutOfRangeException(lastValuePrefix, 1, 7, Term.DayOfWeek);
     }
 
 
@@ -32,7 +33,7 @@ public class DayOfWeekLastValueHandler extends BaseLastValueHandler implements L
             builder.append("SAT");
         }
         else {
-            builder.append(BaseConstants.DAY_OF_WEEK_TERMS.get(val1-1));
+            builder.append(BaseConstants.DAY_OF_WEEK_TERMS.get(lastValuePrefix -1));
         }
 
         return builder.toString().trim();

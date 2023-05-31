@@ -3,45 +3,22 @@ package org.uw.parser.handlers.regex.comma;
 import org.uw.parser.data.Term;
 
 public class CommaHandlerFactory {
-
-    private static CommaHandlerFactory factory;
-
-    private HourCommaHandler hourCommaHandler;
-    private MinuteCommaHandler minuteCommaHandler;
-    private DayOfMonthCommaHandler dayOfMonthCommaHandler;
-    private DayOfWeekCommaHandler dayOfWeekCommaHandler;
-    private MonthCommaHandler monthCommaHandler;
-
-    private CommaHandlerFactory(){
-        hourCommaHandler = new HourCommaHandler();
-        minuteCommaHandler = new MinuteCommaHandler();
-        dayOfMonthCommaHandler  = new DayOfMonthCommaHandler();
-        dayOfWeekCommaHandler = new DayOfWeekCommaHandler();
-        monthCommaHandler = new MonthCommaHandler();
-    }
-
-    public static CommaHandlerFactory getInstance(){
-        if(factory == null)
-            factory = new CommaHandlerFactory();
-        return factory;
-    }
-
     public CommaHandler getCommaHandler(Term term){
         switch (term){
             case Hour -> {
-                return factory.hourCommaHandler;
+                return new HourCommaHandler();
             }
             case Minute -> {
-                return factory.minuteCommaHandler;
+                return new MinuteCommaHandler();
             }
             case DayOfMonth -> {
-                return factory.dayOfMonthCommaHandler;
+                return new DayOfMonthCommaHandler();
             }
             case DayOfWeek -> {
-                return factory.dayOfWeekCommaHandler;
+                return new DayOfWeekCommaHandler();
             }
             case Month -> {
-                return factory.monthCommaHandler;
+                return new MonthCommaHandler();
             }
         };
 

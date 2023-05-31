@@ -1,20 +1,21 @@
 package org.uw.parser.handlers.regex.slash;
 
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseUtil;
 
 public class MinuteSlashHandler extends BaseSlashHandler implements SlashHandler {
 
-    private int val1, val2;
+    private int beginValue, stepRangeValue;
 
     @Override
-    public void validate(String termStr, Term term) throws Exception {
+    protected void validate(String termStr, Term term) throws Exception {
         super.validate(termStr, term);
         String[] termSplit = termStr.split("/");
-        val1 = BaseUtil.convertToInt(termSplit[0], term);
-        val2 = BaseUtil.convertToInt(termSplit[1], term);
-        if(val1 < 0 || val2 < 0 || val1 > 59 || val2 > 59)
-            throw new Exception("Invalid operands. Term-" + term.toString());
+        beginValue = BaseUtil.convertToInt(termSplit[0], term);
+        stepRangeValue = BaseUtil.convertToInt(termSplit[1], term);
+        if(beginValue < 0 || stepRangeValue < 0 || beginValue > 59 || stepRangeValue > 59)
+            throw new NumericOutOfRangeException(beginValue, stepRangeValue, 0, 59, term);
     }
 
     @Override
@@ -24,18 +25,12 @@ public class MinuteSlashHandler extends BaseSlashHandler implements SlashHandler
         StringBuilder builder = new StringBuilder();
 
         int i;
-        if(val2 == 0)
-            val2=1;
+        if(stepRangeValue == 0)
+            stepRangeValue =1;
 
-        for( i=val1; i<= 59; i+=val2){
+        for(i= beginValue; i<= 59; i+= stepRangeValue){
             builder.append(i).append(" ");
         }
-
-        /*i %=59;
-        for(; i < val1; i+= val2){
-            builder.append(i).append(" ");
-        }
-        */
 
         return builder.toString().trim();
     }

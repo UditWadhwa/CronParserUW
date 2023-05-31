@@ -15,11 +15,11 @@ public class BaseTermHandler {
     protected LastValueHandlerFactory lastValueHandlerFactory;
 
     public BaseTermHandler(){
-        this.asteriskHandlerFactory = AsteriskHandlerFactory.getInstance();
-        this.slashHandlerFactory = SlashHandlerFactory.getInstance();
-        this.hyphenHandlerFactory = HyphenHandlerFactory.getInstance();
-        this.commaHandlerFactory = CommaHandlerFactory.getInstance();
-        this.lastValueHandlerFactory = LastValueHandlerFactory.getInstance();
+        this.asteriskHandlerFactory = new AsteriskHandlerFactory();
+        this.slashHandlerFactory = new SlashHandlerFactory();
+        this.hyphenHandlerFactory = new HyphenHandlerFactory();
+        this.commaHandlerFactory = new CommaHandlerFactory();
+        this.lastValueHandlerFactory = new LastValueHandlerFactory();
     }
 
     protected String generate(String term, CronSpecialChar specialChar) throws Exception{

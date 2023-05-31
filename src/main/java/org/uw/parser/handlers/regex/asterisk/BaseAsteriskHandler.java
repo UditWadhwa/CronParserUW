@@ -2,6 +2,7 @@ package org.uw.parser.handlers.regex.asterisk;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.InvalidAsteriskTermException;
 import org.uw.parser.util.BaseUtil;
 
 import java.util.regex.Pattern;
@@ -13,7 +14,7 @@ public class BaseAsteriskHandler {
 
     protected void validate(String termStr, Term term) throws Exception{
         if(!Pattern.matches("\\*/[0-9]+", termStr) && !Pattern.matches("\\*$", termStr))
-            throw new Exception(ErrorMessages.INCORRECT_ASTERISK_TERM + ". Term-"+ term.toString());
+            throw new InvalidAsteriskTermException(termStr, term);
 
         if(termStr.contains("/")){
             hasIncrement = true;

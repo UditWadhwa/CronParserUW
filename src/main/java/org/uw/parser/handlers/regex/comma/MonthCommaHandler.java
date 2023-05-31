@@ -2,6 +2,9 @@ package org.uw.parser.handlers.regex.comma;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.IncorrectDayInputException;
+import org.uw.parser.exception.IncorrectMonthInputException;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
@@ -25,7 +28,7 @@ public class MonthCommaHandler extends BaseCommaHandler implements CommaHandler 
     private void handleTextual(String[] termSplit) throws Exception{
         for(int i=0; i< termSplit.length;i++){
             if(!BaseConstants.MONTH_TERMS.contains(termSplit[i]))
-                throw new Exception(ErrorMessages.INCORRECT_MONTH_TEXTUAL +" Term-" + Term.Month);
+                throw new IncorrectMonthInputException(termSplit[i], Term.Month);
 
             builder.append(termSplit[i]).append(" ");
         }
@@ -33,9 +36,9 @@ public class MonthCommaHandler extends BaseCommaHandler implements CommaHandler 
 
     private void handleNumeric(String[] termSplit) throws Exception{
         for(int i=0; i< termSplit.length;i++){
-            int val = BaseUtil.convertToInt(termSplit[i], Term.DayOfWeek);
+            int val = BaseUtil.convertToInt(termSplit[i], Term.Month);
             if(val <= 0 || val > 12)
-                throw new Exception(ErrorMessages.INCORRECT_MONTH_NUMERIC +" Term-" + Term.Month);
+                throw new NumericOutOfRangeException(termSplit[i], 1, 12, Term.Month);
 
             builder.append(val).append(" ");
         }

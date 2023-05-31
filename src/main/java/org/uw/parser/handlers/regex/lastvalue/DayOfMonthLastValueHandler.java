@@ -2,12 +2,12 @@ package org.uw.parser.handlers.regex.lastvalue;
 
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
-import org.uw.parser.util.BaseConstants;
+import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.util.BaseUtil;
 
 public class DayOfMonthLastValueHandler extends BaseLastValueHandler implements LastValueHandler {
 
-    private int val1;
+    private int lastValuePrefix;
     private boolean noPrefix;
 
 
@@ -20,10 +20,10 @@ public class DayOfMonthLastValueHandler extends BaseLastValueHandler implements 
             return;
         }
 
-        val1 = BaseUtil.convertToInt(termStr.substring(0, in), term);
+        lastValuePrefix = BaseUtil.convertToInt(termStr.substring(0, in), term);
 
-        if(val1 <= 0 || val1 > 31)
-            throw new Exception(ErrorMessages.INVALID_OPERANDS + " Term- " + term.toString());
+        if(lastValuePrefix <= 0 || lastValuePrefix > 31)
+            throw new NumericOutOfRangeException(lastValuePrefix, 1, 31, term);
     }
 
     @Override
@@ -39,15 +39,4 @@ public class DayOfMonthLastValueHandler extends BaseLastValueHandler implements 
         return builder.toString().trim();
     }
 
-    private boolean isNumeric(String term){
-
-        try{
-            Integer.parseInt(term);
-        }
-        catch (Exception e){
-            return false;
-        }
-
-        return true;
-    }
 }

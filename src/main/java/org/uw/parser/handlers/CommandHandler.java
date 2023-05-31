@@ -32,8 +32,8 @@ public class CommandHandler extends BaseTermHandler implements TermHandler{
         return null;
     }
 
-    @Override
-    public boolean validate(CronSpecialChar p, String term) throws Exception {
+
+    private boolean validate(CronSpecialChar p, String term) throws Exception {
         return true;
     }
 }
