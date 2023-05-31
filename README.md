@@ -11,7 +11,7 @@ Following Cron Special characters are supported so far:
 3. Slash /
 4. Hyphen - 
 5. LastValue L 
-   6. (*complete support for Day_of_week term. For Day_of_month term without numeric prefix support is there.*)
+     (*complete support for Day_of_week term. For Day_of_month term without numeric prefix support is there.*)
 
 Sample valid inputs:
 ```
