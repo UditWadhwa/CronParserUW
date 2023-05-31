@@ -11,7 +11,11 @@ public class ErrorMessages {
     public static final String INCORRECT_ASTERISK_TERM = "Invalid asterisk expression [%s]. Term - [%s]";
     public static final String INCORRECT_HYPHEN_TERM = "Invalid hyphen expression [%s]. Term - [%s]";
     public static final String INCORRECT_SLASH_TERM = "Invalid slash expression [%s]. Term - [%s]";
+    public static final String BLANK_COMMAND = "Invalid command in the cron expression.";
     public static final String INVALID_NUMERIC = "Invalid numeric term-[%d]. Valid Range is [%d-%d]. Term- [%s]";
+    public static final String UNSUPPORTED_CHAR = "[%s] special character is not supported at present for term-[%s].";
+    public static final String UNSUPPORTED_CHAR_WITH_PREFIX = "[%s] special character is not supported with numeric prefix at present for term-[%s]." +
+            "You can use 'L' for the term-[Month]";
 
     public static final String INCORRECT_DAY_TERMS = "Invalid cron expression. Invalid value [%s] in field [%s].";
 

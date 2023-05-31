@@ -23,7 +23,7 @@ public class SlashHandlerFactory {
             }
         };
 
-        return null;
+         throw new IllegalArgumentException("Unsupported term.");
     }
 
 }

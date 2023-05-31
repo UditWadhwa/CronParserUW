@@ -7,6 +7,7 @@ import org.uw.parser.data.Term;
 import org.uw.parser.exception.IncorrectDayInputException;
 import org.uw.parser.exception.InvalidTermCharacterException;
 import org.uw.parser.exception.NumericOutOfRangeException;
+import org.uw.parser.exception.UnsupportedSpecialCharException;
 import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
@@ -44,7 +45,7 @@ public class DayOfWeekTermHandler extends BaseTermHandler implements TermHandler
             case LastValue: return builder.append(this.lastValueHandlerFactory.getLastValueHandler(Term.DayOfWeek).process(term, Term.DayOfWeek)).toString();
         };
 
-        return null;
+        throw new UnsupportedSpecialCharException(specialChar.toString(), Term.DayOfWeek);
     }
 
 

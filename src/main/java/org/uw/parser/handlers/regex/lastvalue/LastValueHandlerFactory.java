@@ -17,7 +17,7 @@ public class LastValueHandlerFactory {
             
         }
 
-        return null;
+        throw new IllegalArgumentException("Unsupported term.");
     }
 
 }

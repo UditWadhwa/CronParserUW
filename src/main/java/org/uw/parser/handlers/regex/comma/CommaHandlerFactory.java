@@ -22,7 +22,7 @@ public class CommaHandlerFactory {
             }
         };
 
-        return null;
+        throw new IllegalArgumentException("Unsupported term.");
     }
 
 }

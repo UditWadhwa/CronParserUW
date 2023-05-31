@@ -4,6 +4,8 @@ import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.CronSpecialChar;
 import org.uw.parser.data.Expression;
 import org.uw.parser.data.Term;
+import org.uw.parser.exception.BlankCommandException;
+import org.uw.parser.exception.UnsupportedSpecialCharException;
 import org.uw.parser.util.BaseUtil;
 
 public class CommandHandler extends BaseTermHandler implements TermHandler{
@@ -29,11 +31,13 @@ public class CommandHandler extends BaseTermHandler implements TermHandler{
         if(specialChar == CronSpecialChar.Base)
             return builder.append(super.generate(term, CronSpecialChar.Base)).toString();
 
-        return null;
+        throw new UnsupportedSpecialCharException(specialChar.toString(), Term.Command);
     }
 
 
     private boolean validate(CronSpecialChar p, String term) throws Exception {
+        if(term.isBlank())
+            throw new BlankCommandException();
         return true;
     }
 }

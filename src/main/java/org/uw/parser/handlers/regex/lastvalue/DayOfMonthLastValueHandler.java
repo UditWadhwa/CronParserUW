@@ -3,6 +3,8 @@ package org.uw.parser.handlers.regex.lastvalue;
 import org.uw.parser.ErrorMessages;
 import org.uw.parser.data.Term;
 import org.uw.parser.exception.NumericOutOfRangeException;
+import org.uw.parser.exception.UnsupportedLastValueSpecialCharException;
+import org.uw.parser.exception.UnsupportedSpecialCharException;
 import org.uw.parser.util.BaseUtil;
 
 public class DayOfMonthLastValueHandler extends BaseLastValueHandler implements LastValueHandler {
@@ -34,7 +36,9 @@ public class DayOfMonthLastValueHandler extends BaseLastValueHandler implements 
         if(noPrefix){
             builder.append("31");
         }
-
+        else {
+            throw new UnsupportedLastValueSpecialCharException(termStr, term);
+        }
 
         return builder.toString().trim();
     }

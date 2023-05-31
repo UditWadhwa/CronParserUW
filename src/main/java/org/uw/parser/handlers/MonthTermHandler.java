@@ -3,8 +3,8 @@ package org.uw.parser.handlers;
 import org.uw.parser.data.CronSpecialChar;
 import org.uw.parser.data.Expression;
 import org.uw.parser.data.Term;
-import org.uw.parser.exception.InvalidTermCharacterException;
-import org.uw.parser.exception.NumericOutOfRangeException;
+import org.uw.parser.exception.*;
+import org.uw.parser.util.BaseConstants;
 import org.uw.parser.util.BaseUtil;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MonthTermHandler extends BaseTermHandler implements TermHandler{
             case Comma: return builder.append(this.commaHandlerFactory.getCommaHandler(Term.Month).process(term, Term.Month)).toString();
         };
 
-        return null;
+        throw new UnsupportedSpecialCharException(specialChar.toString(), Term.Month);
     }
 
     private boolean validate(CronSpecialChar p, String term) throws Exception {
@@ -52,7 +52,16 @@ public class MonthTermHandler extends BaseTermHandler implements TermHandler{
         if(p != CronSpecialChar.Base)
             return true;
 
-        int val = BaseUtil.convertToInt(term, Term.Month);
+        if(BaseConstants.MONTH_TERMS.contains(term))
+            return true;
+
+        int val =1;
+        try {
+            val = BaseUtil.convertToInt(term, Term.DayOfMonth);
+        }
+        catch (Exception e){
+            throw new IncorrectMonthInputException(term, Term.DayOfMonth);
+        }
 
         if(p == CronSpecialChar.Base && val <= 0 || val > 12)
             throw new NumericOutOfRangeException(term, 1, 12, Term.Month);

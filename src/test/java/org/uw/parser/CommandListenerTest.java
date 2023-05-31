@@ -26,7 +26,12 @@ public class CommandListenerTest {
                                         "56 * * * * /ss",
                                         "4 * */10 * * /ss",
                                         "4-21/5 4/10 4/10 JAN-SEP TUE-SAT/2 /dhjd",
-                                        "4 3 30 FEB/3 MON/4 /dd"
+                                        "4 3 30 FEB/3 MON/4 /dd",
+                                        "3,4 4,17 2 NOV 3 /ddd",
+                                        "3,4 4,17 L NOV 3L /ddd",
+                                        "3,4 4,17 L NOV 1L /ddd",
+                                        "3,4 4,17 L NOV 0L /ddd",
+                                        "3,4 4,17 L NOV 7L /ddd"
                                         };
 
     @Before

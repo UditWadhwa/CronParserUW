@@ -5,6 +5,7 @@ import org.uw.parser.data.Expression;
 import org.uw.parser.data.Term;
 import org.uw.parser.exception.InvalidTermCharacterException;
 import org.uw.parser.exception.NumericOutOfRangeException;
+import org.uw.parser.exception.UnsupportedSpecialCharException;
 import org.uw.parser.util.BaseUtil;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class MinuteTermHandler extends BaseTermHandler implements TermHandler{
             case Comma: return builder.append(this.commaHandlerFactory.getCommaHandler(Term.Minute).process(term, Term.Minute)).toString();
         };
 
-        return null;
+        throw new UnsupportedSpecialCharException(specialChar.toString(), Term.Minute);
     }
 
 

@@ -23,7 +23,7 @@ public class HyphenHandlerFactory {
             }
         };
 
-        return null;
+        throw new IllegalArgumentException("Unsupported term.");
     }
 
 }

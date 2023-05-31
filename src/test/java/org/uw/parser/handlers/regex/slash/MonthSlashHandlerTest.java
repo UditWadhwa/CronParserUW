@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 public class MonthSlashHandlerTest {
 
     private MonthSlashHandler slashHandler;
-    private String invalidExpr = "DEC/2";
+    private String validExpr1 = "DEC/2";
     private String validExpr = "3/2";
     private String input1 = "3/3";
     private String expectedOutput1 = "3 6 9 12";
@@ -22,9 +22,15 @@ public class MonthSlashHandlerTest {
         slashHandler = new MonthSlashHandler();
     }
 
-    @Test(expected = Exception.class)
-    public void testWithIncorrectDataInExpr() throws Exception{
-        slashHandler.process(invalidExpr, Mockito.any());
+    @Test
+    public void testWithCorrectDataInExpr1() throws Exception{
+        try {
+            slashHandler.process(validExpr1, Mockito.any());
+        }
+        catch (Exception e){
+            Assert.fail("No exception is expected for the valid expression-"+ validExpr1);
+        }
+
     }
 
     @Test(expected = Exception.class)

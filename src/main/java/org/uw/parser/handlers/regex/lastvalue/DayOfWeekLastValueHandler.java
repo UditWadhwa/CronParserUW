@@ -20,8 +20,8 @@ public class DayOfWeekLastValueHandler extends BaseLastValueHandler implements L
         }
 
         lastValuePrefix = BaseUtil.convertToInt(termStr.substring(0, in), term);
-        if(lastValuePrefix <= 0 || lastValuePrefix > 7)
-            throw new NumericOutOfRangeException(lastValuePrefix, 1, 7, Term.DayOfWeek);
+        if(lastValuePrefix < 0 || lastValuePrefix > 7)
+            throw new NumericOutOfRangeException(lastValuePrefix, 0, 7, Term.DayOfWeek);
     }
 
 
@@ -30,10 +30,15 @@ public class DayOfWeekLastValueHandler extends BaseLastValueHandler implements L
         validate(termStr, term);
         StringBuilder builder = new StringBuilder();
         if(noPrefix){
-            builder.append("SAT");
+            builder.append("SUN");
         }
         else {
-            builder.append(BaseConstants.DAY_OF_WEEK_TERMS.get(lastValuePrefix -1));
+            if(lastValuePrefix == 0)
+                builder.append("SUN");
+            else if(lastValuePrefix == 7)
+                builder.append("SAT");
+            else
+                builder.append(BaseConstants.DAY_OF_WEEK_TERMS.get(lastValuePrefix -1));
         }
 
         return builder.toString().trim();

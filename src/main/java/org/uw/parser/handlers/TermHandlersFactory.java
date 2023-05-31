@@ -26,7 +26,7 @@ public class TermHandlersFactory {
 
         };
 
-        return null;
+        throw new IllegalArgumentException("Unsupported term.");
     }
 
 }

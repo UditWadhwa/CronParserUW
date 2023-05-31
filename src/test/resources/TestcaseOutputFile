@@ -68,5 +68,41 @@ day of month 30
        month FEB MAY AUG NOV
  day of week MON FRI
      command /dd
+11
+      minute 3 4
+        hour 4 17
+day of month 2
+       month NOV
+ day of week 3
+     command /ddd
+12
+      minute 3 4
+        hour 4 17
+day of month 31
+       month NOV
+ day of week WED
+     command /ddd
+13
+      minute 3 4
+        hour 4 17
+day of month 31
+       month NOV
+ day of week MON
+     command /ddd
+14
+      minute 3 4
+        hour 4 17
+day of month 31
+       month NOV
+ day of week SUN
+     command /ddd
+15
+      minute 3 4
+        hour 4 17
+day of month 31
+       month NOV
+ day of week SAT
+     command /ddd
+
 
 

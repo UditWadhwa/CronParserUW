@@ -23,7 +23,7 @@ public class AsteriskHandlerFactory {
             }
         };
 
-        return null;
+        throw new IllegalArgumentException("Unsupported term.");
     }
 
 }
