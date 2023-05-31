@@ -38,5 +38,21 @@ day of month 5 10 15 20 25
 
 To exit from the program, simply type ***exit*** on the command line.
 
+### Running the application
+The application is built as a simple main method execution. [CommandListener.java](https://github.com/UditWadhwa/CronParserUW/blob/main/src/main/java/org/uw/parser/CommandListener.java) has the main method.
+
+The main method continuosly reads the inputs from System.in and with each expression entered followed by newline, the processing begins. 
+Post validation and processing the desired output (or error message incase of sad path) is available on the console. 
+The next set of input expressions can then be given on the console again followed by the newline character.
+
+For exiting the application, simply type ***exit*** on the command line.
+
 ### Testcases
 Apart from unit testcases. There is a [Test Class](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/java/org/uw/parser/CommandListenerTest.java) which runs end-to-end tests for valid cron expressions and compares with expected outputs as stored in [file](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/resources/TestcaseOutputFile).
+End-to-End testcases are run as a single unit test. They iterate over different sample inputs (happy path) listed in the java test file above.
+
+All the testcases can be run from command-line using Maven. They are the unit testcases covering different files.
+```
+mvn test
+```
+
