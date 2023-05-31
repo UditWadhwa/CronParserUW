@@ -36,3 +36,5 @@ day of month 5 10 15 20 25
 
 To exit from the program, simply type ***exit*** on the command line.
 
+### Testcases
+Apart from unit testcases. There is a [Test Class](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/java/org/uw/parser/CommandListenerTest.java) which runs end-to-end tests for valid cron expressions and compares with expected outputs as stored in [file](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/resources/TestcaseOutputFile).
