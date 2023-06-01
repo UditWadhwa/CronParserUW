@@ -47,6 +47,56 @@ The next set of input expressions can then be given on the console again followe
 
 For exiting the application, simply type ***exit*** on the command line.
 
+### Running the application from command line
+Run the following maven command from the root project directory
+```
+mvn package
+
+```
+This shall successfully create a jar in the project target directory and should have following **sample output**.
+```
+ --- maven-jar-plugin:2.4:jar (default-jar) @ CronParser ---
+[INFO] Building jar: /Users/uditwadhwa/CronParser/target/CronParser-1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-shade-plugin:3.2.4:shade (default) @ CronParser ---
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing /Users/uditwadhwa/CronParser/target/CronParser-1.0-SNAPSHOT.jar with /Users/uditwadhwa/CronParser/target/CronParser-1.0-SNAPSHOT-shaded.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+
+```
+Post this step you may refer the jar from target directory and run following command to begin the application
+```
+java -jar <targetDirectory>/CronParser-1.0-SNAPSHOT.jar
+
+```
+Once the application is up, you can begin typing the cron expression in command-line and ***press enter***. The application would process the expression and return the output. After that you can feed in the next input expression and wait for output. The application continuosly listens to the the next input and displays the output or error message. Sample seen below
+
+```
+* * * * * /abd
+      minute 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
+        hour 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+day of month 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 2 25 26 27 28 29 30 31
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week 1 2 3 4 5 6 7
+     command /abd
+
+* * /ss
+Invalid expression. Please check the cron expression syntax [min hour day_of_month month day_of_week command].
+*/10 */5 * * MON-FRI /asgh
+      minute 0 10 20 30 40 50
+        hour 0 5 10 15 20
+day of month 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 2 25 26 27 28 29 30 31
+       month 1 2 3 4 5 6 7 8 9 10 11 12
+ day of week MON TUE WED THU FRI
+     command /ass
+
+
+```
+
+To exit from the application type "***exit***" on the command line.
+
+
 ### Testcases
 Apart from unit testcases. There is a [Test Class](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/java/org/uw/parser/CommandListenerTest.java) which runs end-to-end tests for valid cron expressions and compares with expected outputs as stored in [file](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/resources/TestcaseOutputFile).
 End-to-End testcases are run as a single unit test. They iterate over different sample inputs (happy path) listed in the java test file above.
