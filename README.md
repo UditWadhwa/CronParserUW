@@ -106,3 +106,31 @@ All the testcases can be run from command-line using Maven. They are the unit te
 mvn test
 ```
 
+### Running end-to-end testcase
+Run the following command in command line to run the end-to-end testcase.
+```
+mvn test -Dtest="CommandListenerTest"
+
+```
+This class although has a single test, but it loops through the following valid expressions for now and then compares the actual output with expected output present in [file](https://github.com/UditWadhwa/CronParserUW/blob/main/src/test/resources/TestcaseOutputFile).
+Valid expressions covered by the test: 
+
+```
+"4-49/7 4/10 5/20 FEB-OCT MON-THU /acd",
+                                            "* * * * * /abd",
+                                         "4-49 4/10 5/20 FEB-OCT 1-6 /acd",
+                                        "4/12 4-20/5 * * SUN /acd",
+                                        "4/12 4-20/5 5,30,11 * SUN /ad",
+                                        "4-34/3 2-17/3 5-25/5 JAN-JUL/2 MON-FRI/2 /abcdc",
+                                        "56 * * * * /ss",
+                                        "4 * */10 * * /ss",
+                                        "4-21/5 4/10 4/10 JAN-SEP TUE-SAT/2 /dhjd",
+                                        "4 3 30 FEB/3 MON/4 /dd",
+                                        "3,4 4,17 2 NOV 3 /ddd",
+                                        "3,4 4,17 L NOV 3L /ddd",
+                                        "3,4 4,17 L NOV 1L /ddd",
+                                        "3,4 4,17 L NOV 0L /ddd",
+                                        "3,4 4,17 L NOV 7L /ddd"
+
+```
+
