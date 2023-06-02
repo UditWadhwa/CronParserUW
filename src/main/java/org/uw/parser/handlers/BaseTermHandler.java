@@ -7,6 +7,9 @@ import org.uw.parser.handlers.regex.hyphen.HyphenHandlerFactory;
 import org.uw.parser.handlers.regex.lastvalue.LastValueHandlerFactory;
 import org.uw.parser.handlers.regex.slash.SlashHandlerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseTermHandler {
     protected AsteriskHandlerFactory asteriskHandlerFactory;
     protected SlashHandlerFactory slashHandlerFactory;
@@ -24,6 +27,18 @@ public class BaseTermHandler {
 
     protected String generate(String term, CronSpecialChar specialChar) throws Exception{
         return term.trim();
+    }
+
+    protected List<String> termTokens;
+
+    protected void process(String term) throws Exception{
+        String[] termSplit = term.split("\\,");
+        termTokens = new ArrayList<>();
+        for(int i =0; i < termSplit.length; i++){
+            if(termSplit[i].isEmpty())
+                throw new Exception("Invalid token -" + term);
+            termTokens.add(termSplit[i]);
+        }
     }
 
     protected CronSpecialChar classify(String term){
