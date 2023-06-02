@@ -7,14 +7,14 @@ public class BaseValidator {
     // Interface is better, and have impls
 
     private static final char[] BLACKLISTED_CHARS = {'`', '!', '@', '$', '%', '^', '&', '(',')',
-    '_', '=', '+', '"', ';', ':', '[', ']', '{', '}', '.','|', '~', '\n', '\t', '\r'};
+    '_', '=', '+', '"', ';', ':', '[', ']', '{', '}',  '~', '\n', '\t', '\r'}; // '.','|',
 
     private static final int MAX_CHAR_LIMIT = 30;
 
     public void validate(String exprStr) throws Exception{
         String[] exprSplit = exprStr.split(" ");
         if(exprSplit.length != 6){
-            throw new Exception(ErrorMessages.INVALID_EXPR);
+            //throw new Exception(ErrorMessages.INVALID_EXPR);
         }
 
         for(String term : exprSplit){

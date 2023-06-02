@@ -9,6 +9,10 @@ public class Expression {
     private String commandTerm;
     private String monthTerm;
 
+    public void setCommandTerm(String commandTerm) {
+        this.commandTerm = commandTerm;
+    }
+
     private Expression(ExpressionBuilder builder){
         this.commandTerm = builder.commandTerm;
         this.dayOfMonthTerm = builder.dayOfMonthTerm;

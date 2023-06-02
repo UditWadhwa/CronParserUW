@@ -5,6 +5,8 @@ import org.uw.parser.data.Term;
 import org.uw.parser.handlers.TermHandler;
 import org.uw.parser.handlers.TermHandlersFactory;
 
+import java.util.Arrays;
+
 public class CommandProcessor {
 
     private TermHandlersFactory termHandlersFactory;
@@ -24,7 +26,9 @@ public class CommandProcessor {
 
         StringBuilder builder = new StringBuilder();
 
-        for(Term term : Term.values()){
+        Term[] termValues = {Term.Minute, Term.Hour, Term.DayOfMonth, Term.Month, Term.DayOfWeek, Term.Command};
+
+        for(Term term : Arrays.asList(termValues)){
             TermHandler termHandler = termHandlersFactory.getTermHandler(term);
 
             builder.append(termHandler.process(expr.getEnumTerm(term), expr));
@@ -41,8 +45,16 @@ public class CommandProcessor {
         expressionBuilder.setMinute(terms[0]).setHourTerm(terms[1])
                 .setDayOfMonthTerm(terms[2]).setMonthTerm(terms[3]).setDayOfWeekTerm(terms[4])
                 .setCommandTerm(terms[5]);
+        Expression expression = expressionBuilder.build();
+        StringBuilder commandBuilder = new StringBuilder();
+        for(int j =5; j < terms.length; j++){
+            commandBuilder.append(terms[j]).append(" ");
+        }
 
-        return expressionBuilder.build();
+        expression.setCommandTerm(commandBuilder.toString().trim());
+
+
+        return expression;
     }
 
 }

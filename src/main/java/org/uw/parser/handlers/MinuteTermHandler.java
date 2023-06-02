@@ -8,10 +8,10 @@ import org.uw.parser.exception.NumericOutOfRangeException;
 import org.uw.parser.exception.UnsupportedSpecialCharException;
 import org.uw.parser.util.BaseUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MinuteTermHandler extends BaseTermHandler implements TermHandler{
+
 
     public MinuteTermHandler() {
         super();
@@ -23,16 +23,43 @@ public class MinuteTermHandler extends BaseTermHandler implements TermHandler{
 
     @Override
     public String process(String term, Expression expr) throws Exception{
+        // 1-10
+        // 20-30/2
+        // 45
 
-        CronSpecialChar pattern = classify(term);
-        validate(pattern, term);
+        super.process(term);
+        CronSpecialChar pattern = CronSpecialChar.Base;
+        StringBuilder outputBuilder = new StringBuilder(String.format("%13s","minute "));
 
-        return generate(term, pattern);
+        for(int j = 0; j < termTokens.size(); j++) {
+            pattern = classify(termTokens.get(j));
+            validate(pattern, termTokens.get(j));
+            outputBuilder.append(generate(termTokens.get(j), pattern)).append(" ");
+        }
+
+        return processOutput(outputBuilder.toString());
+    }
+
+
+    private String processOutput(String output){
+        StringBuilder finalBuilder = new StringBuilder();
+
+        Set<String> uniqueSet = new HashSet<>();
+        String[] tokenString = output.split(" ");
+        for(int j=0; j < tokenString.length; j++){
+            uniqueSet.add(tokenString[j]);
+        }
+
+        Iterator<String> itr = uniqueSet.iterator();
+        while(itr.hasNext()){
+            finalBuilder.append(itr.next()).append(" ");
+        }
+        return finalBuilder.toString().trim();
     }
 
     @Override
     protected String generate(String term, CronSpecialChar specialChar) throws Exception{
-        StringBuilder builder = new StringBuilder(String.format("%13s","minute "));
+        StringBuilder builder = new StringBuilder();
 
         if(specialChar == CronSpecialChar.Base)
             return builder.append(super.generate(term, CronSpecialChar.Base)).toString();
